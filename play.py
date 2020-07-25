@@ -16,9 +16,7 @@ class Hangman:
 						'j':False, 'k':False, 'l':False, 'm':False, 'n':False, 'o':False, 'p':False, 'q':False, 'r':False, 
 						's':False, 't':False, 'u':False, 'v':False, 'w':False, 'x':False, 'y':False, 'z':False  }
 		
-		#self.backgroundColor = (255,255,255) #white
 		self.backgroundColor = (197, 227, 236)
-		# self.circleColor = (190, 66, 199)#(255,120,0) # random
 		self.circleColor = (199, 66, 97)
 		self.fontColor = (0,0,0) #black
 
@@ -27,7 +25,9 @@ class Hangman:
 
 		self.hangman = 0
 		self.wordLetterSet = set()
+		self.numberOfLetters = 0
 		self.gameFlag = True
+		self.hintFlag = False
 		self.words = words
 
 		self.font_render = []
@@ -47,6 +47,7 @@ class Hangman:
 		self.win.blit(self.image_render[0],(280,160))
 		for i in word:
 			self.wordLetterSet.add(i)
+		self.numberOfLetters = len(self.wordLetterSet)
 		
 	def renderScreen(self, text):
 		self.win.fill(self.backgroundColor)
@@ -174,7 +175,14 @@ class Hangman:
 							self.letterPressed('y', word)
 						elif(event.key == K_z):
 							self.letterPressed('z', word)
+						elif(event.key == K_RETURN):
+							self.hintFlag = not self.hintFlag
 						
+			if(self.hintFlag==True):
+				self.win.blit(pygame.font.SysFont('Arial', 20).render("{} Unique Letters".format(self.numberOfLetters), True, (0,0,0)), (500,420))
+			else:
+				pygame.draw.rect(self.win, self.backgroundColor, (500,420,200,250))
+			
 			self.drawCircles()
 			self.drawWord(word)
 			pygame.display.update()
