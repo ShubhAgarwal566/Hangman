@@ -43,7 +43,8 @@ class Hangman:
 
 	def initGame(self, word):
 		for i in range(len(word)):
-			self.win.blit(self.font_render[26], (50+i*30,420))
+			pygame.draw.rect(self.win, (0,0,0), (50+i*30,440,15,2))
+
 		self.win.blit(self.image_render[0],(280,160))
 		for i in word:
 			self.wordLetterSet.add(i)
@@ -54,12 +55,8 @@ class Hangman:
 		fnt = pygame.font.SysFont("comicsans", 50)
 		if(text=="Win"):
 			self.win.blit(fnt.render("You "+text, True, (27, 48, 28)), (290,300))
-			pygame.display.update()
-			os.system('mpg123 -q --no-control '+"Audio/win.mp3")
 		else:
 			self.win.blit(fnt.render("You "+text, True, (161,0,0)), (260,300))
-			pygame.display.update()
-			os.system('mpg123 -q --no-control '+"Audio/loose.mp3")		
 		self.win.blit(self.image_render[6], (330, 220))
 		pygame.display.update()
 		while True :
@@ -87,13 +84,13 @@ class Hangman:
 	def drawWord(self,word):
 		for i in range(len(word)):
 			if(self.letters[word[i]]==False):
-				self.win.blit(self.font_render[26], (50+i*30,420))
+				pygame.draw.rect(self.win, (0,0,0), (50+i*30,440,15,2))
 			else:
 				self.win.blit(self.font_render[ord(word[i])-97], (50+i*30,420))
 
 	def letterPressed(self, letter, word):
 		if(self.letters[letter] == True):
-			return
+			return True, True
 		self.letters[letter] = True
 		if(letter not in word):
 			self.hangman += 1
@@ -101,19 +98,18 @@ class Hangman:
 			pygame.draw.rect(self.win, self.backgroundColor, (280,160,200,250))
 			self.win.blit(self.image_render[self.hangman],(280,160))
 			if(self.hangman == 5):
-				self.renderScreen("Loose")
-				self.gameFlag = False
+				return False, False				
 		else:
 			os.system('mpg123 -q --no-control '+"Audio/valid.mp3")
 			self.wordLetterSet.remove(letter)
 			if(len(self.wordLetterSet)==0):
-				self.renderScreen("Win")
-				self.gameFlag = False
+				return False, True
+		return True, True
 
 	def play(self):
 		self.win.fill(self.backgroundColor)
 		word = random.choice(self.words)
-		#print(word)
+		print(word)
 		self.initGame(word)
 		while(self.gameFlag):
 			pygame.display.set_caption("Hangman")
@@ -124,57 +120,57 @@ class Hangman:
 						sys.exit()
 					elif(event.type == KEYDOWN):
 						if(event.key == K_a):
-							self.letterPressed('a', word)
+							self.gameFlag,res = self.letterPressed('a', word)
 						elif(event.key == K_b):
-							self.letterPressed('b', word)
+							self.gameFlag,res = self.letterPressed('b', word)
 						elif(event.key == K_c):
-							self.letterPressed('c', word)
+							self.gameFlag,res = self.letterPressed('c', word)
 						elif(event.key == K_d):
-							self.letterPressed('d', word)
+							self.gameFlag,res = self.letterPressed('d', word)
 						elif(event.key == K_e):
-							self.letterPressed('e', word)
+							self.gameFlag,res = self.letterPressed('e', word)
 						elif(event.key == K_f):
-							self.letterPressed('f', word)
+							self.gameFlag,res = self.letterPressed('f', word)
 						elif(event.key == K_g):
-							self.letterPressed('g', word)
+							self.gameFlag,res = self.letterPressed('g', word)
 						elif(event.key == K_h):
-							self.letterPressed('h', word)
+							self.gameFlag,res = self.letterPressed('h', word)
 						elif(event.key == K_i):
-							self.letterPressed('i', word)
+							self.gameFlag,res = self.letterPressed('i', word)
 						elif(event.key == K_j):
-							self.letterPressed('j', word)
+							self.gameFlag,res = self.letterPressed('j', word)
 						elif(event.key == K_k):
-							self.letterPressed('k', word)
+							self.gameFlag,res = self.letterPressed('k', word)
 						elif(event.key == K_l):
-							self.letterPressed('l', word)
+							self.gameFlag,res = self.letterPressed('l', word)
 						elif(event.key == K_m):
-							self.letterPressed('m', word)
+							self.gameFlag,res = self.letterPressed('m', word)
 						elif(event.key == K_n):
-							self.letterPressed('n', word)
+							self.gameFlag,res = self.letterPressed('n', word)
 						elif(event.key == K_o):
-							self.letterPressed('o', word)
+							self.gameFlag,res = self.letterPressed('o', word)
 						elif(event.key == K_p):
-							self.letterPressed('p', word)
+							self.gameFlag,res = self.letterPressed('p', word)
 						elif(event.key == K_q):
-							self.letterPressed('q', word)
+							self.gameFlag,res = self.letterPressed('q', word)
 						elif(event.key == K_r):
-							self.letterPressed('r', word)
+							self.gameFlag,res = self.letterPressed('r', word)
 						elif(event.key == K_s):
-							self.letterPressed('s', word)
+							self.gameFlag,res = self.letterPressed('s', word)
 						elif(event.key == K_t):
-							self.letterPressed('t', word)
+							self.gameFlag,res = self.letterPressed('t', word)
 						elif(event.key == K_u):
-							self.letterPressed('u', word)
+							self.gameFlag,res = self.letterPressed('u', word)
 						elif(event.key == K_v):
-							self.letterPressed('v', word)
+							self.gameFlag,res = self.letterPressed('v', word)
 						elif(event.key == K_w):
-							self.letterPressed('w', word)
+							self.gameFlag,res = self.letterPressed('w', word)
 						elif(event.key == K_x):
-							self.letterPressed('x', word)
+							self.gameFlag,res = self.letterPressed('x', word)
 						elif(event.key == K_y):
-							self.letterPressed('y', word)
+							self.gameFlag,res = self.letterPressed('y', word)
 						elif(event.key == K_z):
-							self.letterPressed('z', word)
+							self.gameFlag,res = self.letterPressed('z', word)
 						elif(event.key == K_RETURN):
 							self.hintFlag = not self.hintFlag
 						
@@ -186,5 +182,12 @@ class Hangman:
 			self.drawCircles()
 			self.drawWord(word)
 			pygame.display.update()
+			if(self.gameFlag == False):
+				if(res == True):
+					os.system('mpg123 -q --no-control '+"Audio/win.mp3")		
+					self.renderScreen("Win")
+				else:
+					os.system('mpg123 -q --no-control '+"Audio/loose.mp3")		
+					self.renderScreen("Loose")
 
 
